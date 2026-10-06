@@ -3,11 +3,20 @@ import TaskController from './controllers.js';
 
 const app = express();
 app.use(express.json());
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(204);
+    }
+    next();
+});
 const taskController = new TaskController();
 
 const PORT: number = 3000
 
-app.get('/task/{id}', async (req, res) => {
+app.get('/task/:id', async (req, res) => {
     taskController.getTaskById(req, res);
 });
 
@@ -20,7 +29,7 @@ app.post("/task", async (req, res) => {
     taskController.createTask(req, res);
 });
 
-app.post("/task/{id}/status", async (req, res) => {
+app.post('/task/:id/status', async (req, res) => {
     taskController.updateTaskStatus(req, res);
 });
 

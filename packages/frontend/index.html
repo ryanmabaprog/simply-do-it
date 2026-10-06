@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#5b5ce2" />
+    <title>Simply Do</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header>
+        <p class="eyebrow">Organização diária</p>
+        <h1>Simply Do</h1>
+        <p class="subtitle">Mantenha o foco no que importa.</p>
+      </header>
+      <section class="card" aria-labelledby="new-task-title">
+        <h2 id="new-task-title">Nova tarefa</h2>
+        <form id="task-form">
+          <label for="title">O que precisa ser feito?</label>
+          <div class="form-row">
+            <input id="title" name="title" maxlength="180" placeholder="Ex.: Revisar a apresentação" required />
+            <select id="status" name="status" aria-label="Status inicial">
+              <option value="pending">Pendente</option>
+              <option value="in_progress">Em andamento</option>
+              <option value="done">Concluída</option>
+            </select>
+            <button type="submit">Adicionar</button>
+          </div>
+        </form>
+      </section>
+      <section class="tasks" aria-labelledby="tasks-title">
+        <div class="section-heading">
+          <div><h2 id="tasks-title">Suas tarefas</h2><p id="task-count" aria-live="polite"></p></div>
+          <button id="refresh" class="secondary" type="button">Atualizar</button>
+        </div>
+        <p id="feedback" class="feedback" role="status" aria-live="polite"></p>
+        <ul id="task-list" aria-live="polite"></ul>
+        <div id="empty-state" class="empty-state" hidden><span>✓</span><p>Nenhuma tarefa por aqui. Que tal criar a primeira?</p></div>
+      </section>
+    </main>
+    <script>
+      window.SIMPLY_DO_API_URL = new URLSearchParams(window.location.search).get('api') || window.SIMPLY_DO_API_URL;
+    </script>
+    <script src="./app.js"></script>
+  </body>
+</html>

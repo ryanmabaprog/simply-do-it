@@ -22,24 +22,16 @@ class TaskController {
 
     async createTask(req: any, res: any): Promise<any> {
         const { title, status } = req.body ?? {};
-        if (title.length === 0 || status.length === 0) {
+        if (typeof title !== 'string' || title.trim().length === 0 || !isTaskStatus(status)) {
             return res.status(400).json({
-                error: "title e status são obrigatórios",
-            });
-        } if (title === undefined || status === undefined) {
-            return res.status(400).json({
-                error: "title e status são obrigatórios",
-            });
-        } if (title === null || status === null) {
-            return res.status(400).json({
-                error: "title e status são obrigatórios",
+                error: "title e um status válido são obrigatórios",
             });
         }
 
         try {
-            const taskModel = new TaskModel({ title, status });
+            const taskModel = new TaskModel({ title: title.trim(), status });
             await taskModel.createTask();
-            return res.status(201).json({ title, status });
+            return res.status(201).json({ title: title.trim(), status });
         } catch (error) {
             console.error(error);
             return res.status(500).json({ error: "Erro ao criar a tarefa" });
